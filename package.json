@@ -1,0 +1,19 @@
+{
+  "name": "cookie-backend-node",
+  "version": "1.0.0",
+  "description": "Rest API for Cookie Application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omarmohali/cookie-Backend-Node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omarmohali/cookie-Backend-Node/issues"
+  },
+  "homepage": "https://github.com/omarmohali/cookie-Backend-Node#readme"
+}
