@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/omarmohali/cookie-Backend-Node/issues"
   },
-  "homepage": "https://github.com/omarmohali/cookie-Backend-Node#readme"
+  "homepage": "https://github.com/omarmohali/cookie-Backend-Node#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
