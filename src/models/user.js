@@ -23,6 +23,10 @@ const userSchema = mongoose.Schema({
                 throw new Error("Provide a valid email");   
             }
         }
+    },
+    password: {
+        type: String,
+        required: true
     }
 });
 
