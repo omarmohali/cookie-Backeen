@@ -25,8 +25,8 @@ userRouter.post("/users/login", async (req, res, next) => {
    try {
         const user = await User.validateUser(req.body.email, req.body.password);
         if (user) {
-            user.generateToken();
-            res.send(user);
+            const token = user.generateToken();
+            res.send({user, token});
         }
         else {
             throw Error("Unable to login");

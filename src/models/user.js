@@ -64,7 +64,6 @@ userSchema.statics.getUserFromToken = async function (token) {
         
         if (tokenPayload._id) {
             const user = await User.findOne({_id: tokenPayload._id});
-            console.log(user);
             
             var tokenStillValid = false;
             for (currentToken of user.accessTokens) {
@@ -85,7 +84,6 @@ userSchema.statics.getUserFromToken = async function (token) {
             throw new Error("Unable to verify");
         }
     } catch (err) {
-        console.log(err);
         throw err;
     }
 
@@ -94,9 +92,15 @@ userSchema.statics.getUserFromToken = async function (token) {
 userSchema.methods.generateToken = function() {
     var token = jwt.sign({ _id: this._id }, "SECRETKEY");
     this.accessTokens.push({token: token});
-    console.log(token);
-    console.log(this);
     this.save()
+    return token;
+}
+
+userSchema.methods.toJSON = function() {
+    var object  = this.toObject();
+    delete object.password;
+    delete object .accessTokens;
+    return object;
 }
 
 
