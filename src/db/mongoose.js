@@ -6,5 +6,6 @@ const dbConnectionString = "mongodb://localhost:27017/cookieDBTest";
 
 mongoose.connect(dbConnectionString, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useUnifiedTopology: true
 });
