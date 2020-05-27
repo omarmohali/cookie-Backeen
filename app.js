@@ -4,6 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
+require("./src/db/mongoose.js");
+const User = require("./src/models/user.js");
 
 const app = express();
 
@@ -14,12 +16,33 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/cookieDBTest", {useNewUrlParser: true});
+// mongoose.connect("mongodb://localhost:27017/cookieDBTest", {useNewUrlParser: true});
 
 const blogSchema = {
     title: String,
     content: String
 };
+
+
+
+app.post("/users", (req, res) => {
+    const user = new User(req.body);
+    user.save((err, createdUser) => {
+        if (err) {
+            res.status(400).send(err);
+        }
+        else {
+            res.send(createdUser);
+        }
+    })
+
+    // user.sav
+});
+
+
+
+
+
 
 const Blog = mongoose.model("Blog", blogSchema);
 
