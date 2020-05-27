@@ -17,7 +17,26 @@ userRouter.post("/users", async (req, res) => {
         else {
             res.send(createdUser);
         }
-    })
+    });
+});
+
+userRouter.post("/users/login", async (req, res, next) => {
+    
+   try {
+        const user = await User.validateUser(req.body.email, req.body.password);
+        console.log(user);
+        if (user) {
+            res.send(user);
+        }
+        else {
+            throw Error("Unable to login");
+        }
+   } catch (err) {
+        res.status(401).send();
+   }
+    
+    
+
 });
 
 
