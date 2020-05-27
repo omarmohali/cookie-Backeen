@@ -24,8 +24,8 @@ userRouter.post("/users/login", async (req, res, next) => {
     
    try {
         const user = await User.validateUser(req.body.email, req.body.password);
-        console.log(user);
         if (user) {
+            user.generateToken();
             res.send(user);
         }
         else {
@@ -35,6 +35,16 @@ userRouter.post("/users/login", async (req, res, next) => {
         res.status(401).send();
    }
     
+});
+
+userRouter.post("/users/verifyToken", async (req, res) => {
+    const token = req.headers.authorization;
+    try {
+        var user = await User.getUserFromToken(token.toString());
+        res.send(user);
+    } catch (err) {
+        res.status(401).send();
+    }
     
 
 });
