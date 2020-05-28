@@ -6,18 +6,23 @@ const User = require("./../models/user.js");
 const userRouter = express.Router();
 
 userRouter.post("/users", async (req, res) => {
-    const user = new User(req.body);
     
-    user.password = await bcrypt.hash(user.password, 8);
-
-    user.save((err, createdUser) => {
-        if (err) {
-            res.status(400).send(err);
-        }
-        else {
-            res.send(createdUser);
-        }
-    });
+    const user = User(req.body);
+    try {
+        user.password = await bcrypt.hash(user.password, 8);
+        user.save((err, createdUser) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                const token = user.generateToken();
+                res.send({user, token});
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    } 
 });
 
 userRouter.post("/users/login", async (req, res, next) => {
