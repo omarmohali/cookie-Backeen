@@ -30,6 +30,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    recipeIds: [{
+        type: String,
+        required: true
+    }],
     accessTokens: [{
         token: String
     }]

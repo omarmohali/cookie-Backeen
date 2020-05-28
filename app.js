@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 require("./src/db/mongoose.js");
 const userRouter = require("./src/routers/user.js")
 const blogRouter = require("./src/routers/blog.js")
+const recipeRouter = require("./src/routers/recipe.js")
 
 
 const app = express();
@@ -17,8 +18,9 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 //TODO
-app.use(blogRouter)
-app.use(userRouter)
+app.use(blogRouter);
+app.use(userRouter);
+app.use(recipeRouter);
 
 
 
