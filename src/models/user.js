@@ -103,7 +103,7 @@ userSchema.methods.generateToken = function() {
 userSchema.methods.toJSON = function() {
     var object  = this.toObject();
     delete object.password;
-    delete object .accessTokens;
+    delete object.accessTokens;
     return object;
 }
 

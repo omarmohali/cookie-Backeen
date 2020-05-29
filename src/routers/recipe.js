@@ -5,6 +5,18 @@ const User = require("./../models/user.js");
 
 const recipeRouter = express.Router();
 
+
+recipeRouter.get("/recipes", async (req, res) => {
+
+    try {
+        const recipes = await Recipe.find();
+        res.send(recipes);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+    
+})
+
 recipeRouter.post("/recipes", async (req, res) => {
 
     var user;
