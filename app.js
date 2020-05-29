@@ -3,9 +3,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 require("./src/db/mongoose.js");
-const userRouter = require("./src/routers/user.js")
-const blogRouter = require("./src/routers/blog.js")
-const recipeRouter = require("./src/routers/recipe.js")
+const userRouter = require("./src/routers/user.js");
+const blogRouter = require("./src/routers/blog.js");
+const recipeRouter = require("./src/routers/recipe.js");
+const imageRouter = require("./src/routers/image.js");
 
 
 const app = express();
@@ -18,9 +19,14 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 //TODO
+
+// var publicDir = require('path').join(__dirname,'/data/images');
+// app.use(express.static(publicDir));
+
 app.use(blogRouter);
 app.use(userRouter);
 app.use(recipeRouter);
+app.use(imageRouter);
 
 
 
