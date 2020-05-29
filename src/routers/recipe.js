@@ -9,7 +9,7 @@ const recipeRouter = express.Router();
 recipeRouter.get("/recipes", async (req, res) => {
 
     try {
-        const recipes = await Recipe.find();
+        const recipes = await Recipe.find().sort({ createdAt: -1 });
         res.send(recipes);
     } catch (err) {
         res.status(400).send(err);
@@ -30,7 +30,6 @@ recipeRouter.post("/recipes", async (req, res) => {
     try {
         var recipe = Recipe(req.body);
         recipe.userId = user._id;
-        console.log(recipe);
         recipe = await recipe.save();
         user.recipeIds.push(recipe._id);
         await user.save();
