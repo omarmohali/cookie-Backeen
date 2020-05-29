@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const File = require("./file.js");
 
 
 
@@ -11,8 +12,7 @@ const recipeSchema = mongoose.Schema({
         type: String,
     },
     imagesUrls: [{
-        type: String,
-        required: true
+        type: File.schema
     }],
     videoUrl: {
         type: String
