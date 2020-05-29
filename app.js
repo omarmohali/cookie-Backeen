@@ -6,7 +6,7 @@ require("./src/db/mongoose.js");
 const userRouter = require("./src/routers/user.js");
 const blogRouter = require("./src/routers/blog.js");
 const recipeRouter = require("./src/routers/recipe.js");
-const imageRouter = require("./src/routers/image.js");
+const fileRouter = require("./src/routers/file.js");
 
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(express.static("public"));
 app.use(blogRouter);
 app.use(userRouter);
 app.use(recipeRouter);
-app.use(imageRouter);
+app.use(fileRouter);
 
 
 

@@ -1,27 +1,25 @@
 const express = require("express");
-const Image = require("./../models/image.js");
+const File = require("../models/file.js");
 var multer  = require("multer");
 
-var upload = multer({ dest: "data/images" });
-
-
+var upload = multer({ dest: "data/uploads" });
 
 const imageRouter = express.Router();
 
-imageRouter.post("/images", upload.single("image"), async (req, res) => {
+imageRouter.post("/files", upload.single("file"), async (req, res) => {
 
     const file = req.file;
     if (!file) {
         res.status(400).send("Image not provided");
     }
     else {
-        const image = Image({
-            imageUrl: file.path
+        const dbFile = File({
+            fileUrl: file.path
         });
 
         try {
-            await image.save()
-            res.send(image);
+            await dbFile.save()
+            res.send(dbFile);
         } catch (err) {
             res.status(500).send("Something went wrong");
         }
