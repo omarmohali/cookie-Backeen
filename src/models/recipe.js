@@ -35,15 +35,25 @@ const recipeSchema = mongoose.Schema({
 recipeSchema.index({name: "text", "title": "text"});
 
 
-recipeSchema.statics.getRecipes = async (searchText, tags) => {
+recipeSchema.statics.getRecipes = async (searchText, tag) => {
 
+    console.log("Hello");
     try {
         var recipes;
-        if (searchText == null) {
+        if (!searchText && !tag) {
+            console.log("get all recipes");
             recipes = await Recipe.find().sort({ createdAt: -1 });
         }
         else {
-            recipes = await Recipe.find({$text: {$search: searchText}});
+
+            if (searchText) {
+                recipes = await Recipe.find({$text: {$search: searchText}});
+            }
+            else if (tag) {
+                recipes = await Recipe.find({tags: tag});
+            }
+
+            
         }
 
         return recipes;

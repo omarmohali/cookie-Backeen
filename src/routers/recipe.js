@@ -10,12 +10,13 @@ recipeRouter.get("/recipes", async (req, res) => {
 
     const queryParams = req.query;
     const searchText = queryParams.searchText;
-    const tags = queryParams.tags;
+    const tag = queryParams.tag;
 
     try {
-        const recipes = await Recipe.getRecipes(searchText, tags);
+        const recipes = await Recipe.getRecipes(searchText, tag);
         res.send(recipes);
     } catch (err) {
+        console.log(err);
         res.status(400).send(err);
     }
     
