@@ -5,6 +5,18 @@ const User = require("./../models/user.js");
 
 const userRouter = express.Router();
 
+userRouter.get("/users/:userId", async (req, res) => {
+
+    try {
+        const userId = req.params.userId;
+        const user = await User.findOne({_id: userId});
+        res.send(user);
+    } catch (err) {
+        res.status(404).send("User was not found");
+    }
+    
+});
+
 userRouter.post("/users", async (req, res) => {
     
     const user = User(req.body);
