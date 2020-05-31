@@ -13,13 +13,7 @@ recipeRouter.get("/recipes", async (req, res) => {
     const tags = queryParams.tags;
 
     try {
-        var recipes;
-        if (searchText == null) {
-            recipes = await Recipe.find().sort({ createdAt: -1 });
-        }
-        else {
-            recipes = await Recipe.find({$text: {$search: searchText}});
-        } 
+        const recipes = await Recipe.getRecipes(searchText, tags);
         res.send(recipes);
     } catch (err) {
         res.status(400).send(err);

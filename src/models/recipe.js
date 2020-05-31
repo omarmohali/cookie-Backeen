@@ -34,6 +34,25 @@ const recipeSchema = mongoose.Schema({
 
 recipeSchema.index({name: "text", "title": "text"});
 
+
+recipeSchema.statics.getRecipes = async (searchText, tags) => {
+
+    try {
+        var recipes;
+        if (searchText == null) {
+            recipes = await Recipe.find().sort({ createdAt: -1 });
+        }
+        else {
+            recipes = await Recipe.find({$text: {$search: searchText}});
+        }
+
+        return recipes;
+    } catch (err) {
+        throw err;
+    }
+    
+};
+
 const Recipe = mongoose.model("Recipe", recipeSchema);
 
 module.exports = Recipe;
