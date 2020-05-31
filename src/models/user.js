@@ -94,7 +94,13 @@ userSchema.statics.getUserFromToken = async function (token) {
 }
 
 userSchema.statics.getUsers = async (searchText) => {
-    const users = await User.find();
+    var query = {
+        $or:[
+            {firstName:{$regex: searchText, $options: 'i'}},
+            {lastName:{$regex: searchText, $options: 'i'}}
+        ]
+    }
+    const users = await User.find(query);
     return users;
 };
 

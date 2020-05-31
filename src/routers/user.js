@@ -21,8 +21,6 @@ userRouter.get("/users", async (req, res) => {
     } catch (err) {
         res.status(400).send(err);
     }
-
-    
 });
 
 userRouter.get("/users/:userId", async (req, res) => {
