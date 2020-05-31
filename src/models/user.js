@@ -93,15 +93,39 @@ userSchema.statics.getUserFromToken = async function (token) {
 
 }
 
-userSchema.statics.getUsers = async (searchText) => {
-    var query = {
-        $or:[
-            {firstName:{$regex: searchText, $options: 'i'}},
-            {lastName:{$regex: searchText, $options: 'i'}}
-        ]
-    }
-    const users = await User.find(query);
-    return users;
+userSchema.statics.getUsers = (searchText) => {
+    // var query = {
+    //     $or:[
+    //         {firstName:{$regex: searchText, $options: 'i'}},
+    //         {lastName:{$regex: searchText, $options: 'i'}}
+    //     ]
+    // }
+    // const users = await User.find(query);
+    // return users;
+
+    // User.aggregate([
+    //     {$project: { "name" : { $concat : [ "$firstName", " ", "$lastName" ] } }},
+    //     {$match: {"name": {$regex: searchText}}}
+    //   ]).exec(function(err, result){
+    //     console.log(result);
+    //     return result;
+    //   });
+
+    return new Promise((resolve, reject) => {
+
+        User.aggregate([
+            {$addFields: { "name" : { $concat : [ "$firstName", " ", "$lastName" ]}}},
+            { $unset: ["password", "accessTokens"] },
+            {$match: {"name": {$regex: searchText}}}
+          ]).exec(function(err, result){
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+          });
+
+    });
 };
 
 userSchema.methods.generateToken = function() {
