@@ -8,8 +8,18 @@ const recipeRouter = express.Router();
 
 recipeRouter.get("/recipes", async (req, res) => {
 
+    const queryParams = req.query;
+    const searchText = queryParams.searchText;
+    const tags = queryParams.tags;
+
     try {
-        const recipes = await Recipe.find().sort({ createdAt: -1 });
+        var recipes;
+        if (searchText == null) {
+            recipes = await Recipe.find().sort({ createdAt: -1 });
+        }
+        else {
+            recipes = await Recipe.find({$text: {$search: searchText}});
+        } 
         res.send(recipes);
     } catch (err) {
         res.status(400).send(err);
@@ -18,6 +28,9 @@ recipeRouter.get("/recipes", async (req, res) => {
 })
 
 recipeRouter.post("/recipes", async (req, res) => {
+
+
+    
 
     var user;
     try {

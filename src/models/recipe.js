@@ -4,6 +4,10 @@ const File = require("./file.js");
 
 
 const recipeSchema = mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
     ingredients: [{
         type: String,
         required: true
@@ -27,6 +31,8 @@ const recipeSchema = mongoose.Schema({
 }, {
     timestamps: true
 });
+
+recipeSchema.index({name: "text", "title": "text"});
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
 
