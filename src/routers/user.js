@@ -5,6 +5,26 @@ const User = require("./../models/user.js");
 
 const userRouter = express.Router();
 
+userRouter.get("/users", async (req, res) => {
+
+    const searchText = req.query.searchText;
+    
+
+    try {
+        if (searchText) {
+            const users = await User.getUsers(searchText);
+            res.send(users);
+        }
+        else {
+            throw Error();
+        }
+    } catch (err) {
+        res.status(400).send(err);
+    }
+
+    
+});
+
 userRouter.get("/users/:userId", async (req, res) => {
 
     try {

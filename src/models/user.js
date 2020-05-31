@@ -93,6 +93,11 @@ userSchema.statics.getUserFromToken = async function (token) {
 
 }
 
+userSchema.statics.getUsers = async (searchText) => {
+    const users = await User.find();
+    return users;
+};
+
 userSchema.methods.generateToken = function() {
     var token = jwt.sign({ _id: this._id }, "SECRETKEY");
     this.accessTokens.push({token: token});
@@ -106,6 +111,7 @@ userSchema.methods.toJSON = function() {
     delete object.accessTokens;
     return object;
 }
+
 
 
 const User = mongoose.model("User", userSchema);
