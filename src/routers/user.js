@@ -1,6 +1,8 @@
 const express = require("express");
 const bcrypt = require('bcryptjs');
 const User = require("./../models/user.js");
+const Followers = require("./../models/followers.js");
+const Following = require("./../models/following.js");
 
 
 const userRouter = express.Router();
@@ -82,6 +84,74 @@ userRouter.post("/users/verifyToken", async (req, res) => {
         res.status(401).send();
     }
     
+
+});
+
+userRouter.post("/users/follow", async (req, res) => {
+    const token = req.headers.authorization;
+    var user;
+    try {
+        user = await User.getUserFromToken(token);
+    } catch (err) {
+        res.status(401).send();
+        return;
+    }
+
+    const userId = user._id.toString();
+    const toBeFollowedId = req.body.userId;
+
+    try {
+
+        if (toBeFollowedId) {
+
+            const userToBeFollowed = await User.find({_id: toBeFollowedId});
+            if (!userToBeFollowed) {
+                throw new Error();
+            }
+
+            if (userId == toBeFollowedId) {
+                throw new Error();
+            }
+
+            // add to followings collection
+            var following = await Following.findOne({userId: userId});
+            if (following) {
+                if (!following.followingIds.includes(toBeFollowedId)) {
+                    following.followingIds.push(toBeFollowedId);
+                }
+            } else {
+                following = Following({
+                    userId: userId,
+                    followingIds: [toBeFollowedId]
+                });
+            }
+            
+            // add to followers colloection
+            var followers = await Followers.findOne({userId: toBeFollowedId});
+            if (followers) {
+                if (!followers.followersIds.includes(userId)) {
+                    followers.followersIds.push(userId);
+                }
+            } else {
+                followers = Followers({
+                    userId: toBeFollowedId,
+                    followersIds: [userId]
+                });
+            }
+
+            await following.save();
+            await followers.save();
+
+            res.send()
+
+        }
+        else {
+            throw new Error();
+        }
+    } catch (err) {
+        res.status(400).send()
+    }
+       
 
 });
 
