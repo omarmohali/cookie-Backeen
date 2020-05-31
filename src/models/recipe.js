@@ -37,23 +37,19 @@ recipeSchema.index({name: "text", "title": "text"});
 
 recipeSchema.statics.getRecipes = async (searchText, tag) => {
 
-    console.log("Hello");
     try {
         var recipes;
         if (!searchText && !tag) {
-            console.log("get all recipes");
             recipes = await Recipe.find().sort({ createdAt: -1 });
         }
-        else {
-
-            if (searchText) {
-                recipes = await Recipe.find({$text: {$search: searchText}});
-            }
-            else if (tag) {
-                recipes = await Recipe.find({tags: tag});
-            }
-
-            
+        else if (searchText && tag) {
+            recipes = await Recipe.find({$text: {$search: searchText}, tags: tag});
+        }
+        else if (searchText) {
+            recipes = await Recipe.find({$text: {$search: searchText}});
+        }
+        else if (tag) {
+            recipes = await Recipe.find({tags: tag});
         }
 
         return recipes;
