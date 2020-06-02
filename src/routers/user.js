@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 const User = require("./../models/user.js");
 const Followers = require("./../models/followers.js");
 const Following = require("./../models/following.js");
-
+const Recipe = require("./../models/recipe.js");
+const Feed = require("./../models/feed.js");
 
 const userRouter = express.Router();
 
@@ -156,7 +157,53 @@ userRouter.post("/users/follow", async (req, res) => {
 });
 
 userRouter.get("/users/:userId/feeds", async (req, res) => {
-    res.send("This is the user's feed");
+    const userId = req.params.userId
+
+    // get followings of user
+    var following;
+    try {
+        following = await Following.findOne({ userId: userId });
+        following = following.followingIds;
+        console.log(following);
+    } catch (err) {
+        console.log(err);
+        res.status(404).send(err);
+    }
+    
+    try {
+        var recipes = [];
+
+        for (var followingId of following) {
+
+            var userRecipes = await Recipe.find({"user._id": followingId}).sort({ createdAt: -1 });
+            recipes = recipes.concat(userRecipes);
+
+        }
+
+        recipes.sort((a, b) => { 
+            var d1 = Date.parse(a.createdAt);
+            var d2 = Date.parse(b.createdAt);
+            return d2 - d1;
+        });
+
+        var feeds = [];
+        for (var recipe of recipes) {
+            const feed = new Feed({
+                type: "recipe",
+                post: recipe
+            });
+            feeds.push(feed);
+        }
+        
+
+
+        res.send(feeds);
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+    
 })
 
 

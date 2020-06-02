@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const File = require("./file.js");
+const User = require("./user");
 
 
 
@@ -25,8 +26,8 @@ const recipeSchema = mongoose.Schema({
         type: String,
         required: true
     }],
-    userId: {
-        type: String
+    user: {
+        type: User.schema
     }
 }, {
     timestamps: true

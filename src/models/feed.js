@@ -4,7 +4,7 @@ const User = require("./user");
 const feedSchema = mongoose.Schema({
     sender: {
         type: User.schema,
-        required: true
+        // required: true
     },
     receiver: {
         type: User.schema
@@ -20,12 +20,14 @@ const feedSchema = mongoose.Schema({
         type: Object,
         required: true
     }
+}, {
+    timestamps: true
 });
 
 
 const Feed  = mongoose.model("Feed", feedSchema);
 
-module.exports = feedSchema;
+module.exports = Feed;
 
 
 

@@ -37,7 +37,7 @@ recipeRouter.post("/recipes", async (req, res) => {
     
     try {
         var recipe = Recipe(req.body);
-        recipe.userId = user._id;
+        recipe.user = user;
         recipe = await recipe.save();
         user.recipeIds.push(recipe._id);
         await user.save();
