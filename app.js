@@ -7,6 +7,7 @@ const userRouter = require("./src/routers/user.js");
 const blogRouter = require("./src/routers/blog.js");
 const recipeRouter = require("./src/routers/recipe.js");
 const fileRouter = require("./src/routers/file.js");
+const feedRouter = require("./src/routers/feed");
 
 
 const app = express();

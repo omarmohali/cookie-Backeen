@@ -155,5 +155,9 @@ userRouter.post("/users/follow", async (req, res) => {
 
 });
 
+userRouter.get("/users/:userId/feeds", async (req, res) => {
+    res.send("This is the user's feed");
+})
+
 
 module.exports = userRouter;
