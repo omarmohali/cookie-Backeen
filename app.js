@@ -9,6 +9,7 @@ const recipeRouter = require("./src/routers/recipe.js");
 const fileRouter = require("./src/routers/file.js");
 const feedRouter = require("./src/routers/feed");
 const likeRouter = require("./src/routers/like");
+const commentRouter = require("./src/routers/comment");
 
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(recipeRouter);
 app.use(fileRouter);
 app.use(feedRouter);
 app.use(likeRouter);
+app.use(commentRouter);
 
 
 

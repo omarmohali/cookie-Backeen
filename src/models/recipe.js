@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const File = require("./file.js");
 const User = require("./user");
+const Comment = require("./comment");
 
 
 
@@ -32,7 +33,11 @@ const recipeSchema = mongoose.Schema({
     },
     user: {
         type: User.schema
-    }
+    },
+    comments: [{
+        type: Comment.schema,
+        default: []
+    }]
 }, {
     timestamps: true
 });
