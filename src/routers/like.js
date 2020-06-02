@@ -55,4 +55,43 @@ likeRouter.post("/likes", async (req, res) => {
 });
 
 
+likeRouter.delete("/likes", async (req, res) => {
+    
+    var user;
+    try {
+        user = await User.getUserFromToken(req.headers.authorization);
+    } catch (err) {
+        res.status(401).send(err);
+        return;
+    }
+
+    try {
+        const recipeId = req.body.recipeId;
+
+        const like = await Like.findOne({"user._id": user.id, recipeId: recipeId});
+        
+        if (!like) {
+            throw new Error("Not liked");
+        }
+
+        const recipe = await Recipe.findById(recipeId);
+        if(recipe) {
+            recipe.likesCount = recipe.likesCount - 1;
+        }
+        else {
+            throw new Error("No recipe with this id");
+        }
+
+        await recipe.save();
+        await like.delete();
+
+        res.send();
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+
+});
+
 module.exports = likeRouter;
