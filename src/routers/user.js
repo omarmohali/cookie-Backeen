@@ -12,7 +12,6 @@ userRouter.get("/users", async (req, res) => {
 
     const searchText = req.query.searchText;
     
-
     try {
         if (searchText) {
             const users = await User.getUsers(searchText);
@@ -43,19 +42,30 @@ userRouter.post("/users", async (req, res) => {
     
     const user = User(req.body);
     try {
+
         user.password = await bcrypt.hash(user.password, 8);
-        user.save((err, createdUser) => {
-            if (err) {
-                throw err;
-            }
-            else {
-                const token = user.generateToken();
-                res.send({user, token});
-            }
-        });
+        await user.save();
+        const token = user.generateToken()
+        res.status(201).send({ user, token });
+        
     } catch (err) {
-        console.log(err);
-        res.status(400).send(err);
+
+        const errType = err.errors[Object.keys(err.errors)[0]].properties.type;
+        var status;
+        switch (errType) {
+            case "unique":
+                status = 409
+                break;
+            case "required":
+                status = 400;
+                break
+            case "user defined":
+                status = 400;
+                break;
+            default:
+                status = 400;
+        }
+        res.status(status).send(err);
     } 
 });
 

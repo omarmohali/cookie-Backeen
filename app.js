@@ -16,10 +16,6 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3001;
 
-// app.use(bodyParser.urlencoded({
-//   extended: true
-// }));
-
 app.use(bodyParser.json());
 
 app.use(express.static("public"));
@@ -27,10 +23,6 @@ app.use(cors({
   origin: "http://localhost:3000",
   credentials: true
 }));
-//TODO
-
-// var publicDir = require('path').join(__dirname,'/data/images');
-// app.use(express.static(publicDir));
 
 app.use(blogRouter);
 app.use(userRouter);
