@@ -5,6 +5,7 @@ const Followers = require("./../models/followers.js");
 const Following = require("./../models/following.js");
 const Recipe = require("./../models/recipe.js");
 const Feed = require("./../models/feed.js");
+const getStatusCodeFromError = require("./../db/db-errors");
 
 const userRouter = express.Router();
 
@@ -49,23 +50,8 @@ userRouter.post("/users", async (req, res) => {
         res.status(201).send({ user, token });
         
     } catch (err) {
-
-        const errType = err.errors[Object.keys(err.errors)[0]].properties.type;
-        var status;
-        switch (errType) {
-            case "unique":
-                status = 409
-                break;
-            case "required":
-                status = 400;
-                break
-            case "user defined":
-                status = 400;
-                break;
-            default:
-                status = 400;
-        }
-        res.status(status).send(err);
+        const statusCode = getStatusCodeFromError(err);
+        res.status(statusCode).send(err);
     } 
 });
 
