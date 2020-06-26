@@ -18,7 +18,7 @@ const recipeSchema = mongoose.Schema({
         type: String,
     },
     imagesUrls: [{
-        type: File.schema
+        type: String
     }],
     videoUrl: {
         type: String

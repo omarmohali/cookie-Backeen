@@ -2,7 +2,7 @@ const express = require("express");
 const File = require("../models/file.js");
 var multer  = require("multer");
 
-var upload = multer({ dest: "data/uploads" });
+var upload = multer({ dest: "public/data/uploads" });
 
 const imageRouter = express.Router();
 
