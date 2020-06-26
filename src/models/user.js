@@ -3,6 +3,7 @@ const validator = require("validator");
 const uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const File = require("./file.js");
 
 const userSchema = mongoose.Schema({
     firstName: {
@@ -36,7 +37,11 @@ const userSchema = mongoose.Schema({
     }],
     accessTokens: [{
         token: String
-    }]
+    }],
+    profilePictureUrl: {
+        type: String,
+        required: false
+    }
 });
 
 userSchema.plugin(uniqueValidator);
