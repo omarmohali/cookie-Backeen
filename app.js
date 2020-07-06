@@ -1,6 +1,7 @@
 //jshint esversion:6
 
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
 require("./src/db/mongoose.js");
 const userRouter = require("./src/routers/user.js");
@@ -17,7 +18,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 app.use(express.static("public"));
 
 app.use(cors({
